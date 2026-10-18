@@ -384,12 +384,15 @@ class SaintBaitUI(ctk.CTk):
         self.lbl_keepnet=ctk.CTkLabel(details,text='Садок — / —',font=(UI_FONT,11),height=20,
                                     text_color=COLORS['muted'])
         self.lbl_keepnet.grid(row=0,column=7,sticky='e',padx=(12,0))
-        monitor = ctk.CTkFrame(self.stats_frame,fg_color='transparent')
+        monitor = ctk.CTkFrame(self.stats_frame,fg_color='transparent',height=1)
+        self._tackle_monitor=monitor
         monitor.grid(row=2,column=0,columnspan=4,sticky='ew',pady=(6,0))
         monitor.grid_columnconfigure((0,1,2),weight=1,uniform='rod')
         self._rod_cards = []
         self._equipment_art=EquipmentArt()
         self._equipment_cards=[]
+        self._empty_tackles=ctk.CTkLabel(monitor,text='Снасти в руках или на подставках не обнаружены',
+                                        font=(UI_FONT,11),text_color=COLORS['muted'],anchor='w',height=26)
         for index in range(3):
             card = EquipmentCard(monitor,self._equipment_art,COLORS,UI_FONT,index)
             card.grid(row=0,column=index,sticky='nsew',padx=(0 if index==0 else 3,0))
@@ -773,6 +776,15 @@ class SaintBaitUI(ctk.CTk):
         else:
             self.rod_monitor.stop()
         items = self.rod_registry.snapshot() if enabled else ()
+        if len(items)!=getattr(self,'_visible_tackles',None):
+            self._visible_tackles=len(items)
+            for index,card in enumerate(self._equipment_cards):
+                if index<len(items):card.grid()
+                else:card.grid_remove()
+                self._tackle_monitor.grid_columnconfigure(index,weight=1 if index<len(items) else 0,
+                                                          uniform='rod' if index<len(items) else '')
+            if items:self._empty_tackles.grid_remove()
+            else:self._empty_tackles.grid(row=0,column=0,columnspan=3,sticky='ew',padx=5)
         selected_kind=next((item.kind for item in items if item.active),None)
         spinning=selected_kind=='spinning' and not any(item.on_rest and item.kind=='feeder' for item in items)
         if spinning!=getattr(self,'_show_spinning_settings',None):

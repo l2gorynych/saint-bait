@@ -51,7 +51,7 @@ class EquipmentCard(ctk.CTkFrame):
                               text_color=colors['text'] if kind=='rod' else colors['muted'])
             label.grid(row=row,column=0,sticky='ew',padx=9)
             self.names[kind]=label
-        self.components=ctk.CTkFrame(self,fg_color='transparent',corner_radius=0)
+        self.components=ctk.CTkFrame(self,fg_color='transparent',corner_radius=0,height=1)
         self.components.grid(row=4,column=0,sticky='ew',padx=6,pady=(3,0))
         self.components.grid_columnconfigure(0,weight=1)
         self._component_layout=None

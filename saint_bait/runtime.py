@@ -33,7 +33,7 @@ def resolve_mode(requested,rods):
         held=next((rod.kind for rod in rods if rod.active),None)
         requested=held or ('feeder' if kinds=={'feeder'} else 'spinning' if kinds=={'spinning'} else '')
     if requested not in ('feeder','spinning'):
-        raise ValueError('Выберите фидер или возьмите спиннинг в руки')
+        raise ValueError('Не удалось определить тип: оставьте донные снасти на подставках или возьмите спиннинг в руки')
     chosen=tuple(rod for rod in rods if rod.kind==requested)
     if requested=='feeder' and not 1<=len(chosen)<=3:raise ValueError('Для фидера нужны 1–3 донные снасти')
     if requested=='spinning' and len(chosen)!=1:raise ValueError('Для спиннинга возьмите одну снасть в руки')
