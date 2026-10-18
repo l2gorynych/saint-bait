@@ -1,0 +1,13 @@
+# Runtime dependencies verified with the project's Python 3.14.3 environment.
+# Windows Python includes tkinter and winsound.
+# Fish, line, load and controls use read-only game data; no audio capture or OCR.
+customtkinter==5.2.2
+keyboard==0.13.5
+mss==10.1.0
+numpy==2.4.4
+opencv-python==5.0.0.93
+Pillow==12.2.0
+PyAutoGUI==0.9.54
+PyDirectInput==1.0.4
+PyGetWindow==0.0.9
+requests==2.33.1
